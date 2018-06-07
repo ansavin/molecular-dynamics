@@ -136,12 +136,17 @@ This code is under MIT license
 
 It is divided to 3 main files:
 I. "main.cpp" - main file. It contains:
-    1) namespace "ArgonSystem", which describes Ar gas. You can add your own namespace with different 1-molecule gas, for this you must specify mass of an atom, and Boltzman's const - they both will be used directly. Also you should implement calculating of potential, forces, and algoritms for calculating radii of atoms and velocities at every MD step. In "ArgonSystem" namespace we use Lennard-Jones potential (and its derivative as force) and Verlet algoritm for obtaining radii and velosities
+    1) namespace "ArgonSystem", which describes Ar gas. You can add your own namespace with different 1-molecule gas, for this you must specify mass of an atom, and Boltzman's const - they both will be used directly. Also you should implement calculating of potential, forces, and algoritms for calculating radii of atoms and velocities at every MD step. In "ArgonSystem" namespace we use Lennard-Jones potential (and its derivative as force) and Verlet algoritm for obtaining radii and velocities
+
     2)  main function with I/O and some variables. As you can see, it is possible to specify different dimension of system (or let it stay cubic), or change its timestep, termalization time (used for skipping initial part of trajectory for correct calculating of RDF and other things. For calculating RDF you should use external utils, for example, from Mdynamics:  http://www.fos.su.se), etc., but you should be careful - the Verlet algoritm can works badly just because it isn't suitable for this conditions (for example, timestep is too large).
+
 II. "MDSys.cpp" - it contains MDSys class, which describes our system, and all methods we need to do a simulation. Class reads some data like number of atoms, mass of an atom, Boltzman's const, function for calcutating forces, etc - this allows you to use it with different gases, but there are essential limitations:
     * we assume that gas is 1-molecular (or this assumption is sutable for describing your system). No lipids and DNA are supported
+
     * we initialize system by placing atoms on a cubic lattice. Sorry, program can't read .XYZ or .xmol files
+
     * we output trajectory in .xmol format, to use different file format, you should implement writing yourself
+
 III. "vector.h" - external library for 3d vectors math. You can write your own or use any librbay, which can calculate dot product, value of a vector, normalize it, etc, but notice that this methods are hardcoded in "MDSys.cpp".
 
 code is briefly commented for better understanding how it works. You are free to use it for styding the Molecular Dynamics method
